@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Splide Carousel</title>
+    <title>Dynamic Splide Carousel from Google Drive</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
     <style>
         .splide__slide img {
@@ -13,19 +13,45 @@
     </style>
 </head>
 <body>
+
     <div id="splide" class="splide">
         <div class="splide__track">
-            <ul class="splide__list">
-                <li class="splide__slide"><img src="https://drive.google.com/file/d/1XATu5MvLN7FRzepyhvQIpCUDwgh5oCRb/view?usp=drive_link" alt="Image 1"></li>
-                <li class="splide__slide"><img src="https://drive.google.com/file/d/1S-DnIlwQpicNFxceneWVeoK4fWPjAUs7/view?usp=drive_link" alt="Image 2"></li>
-                <li class="splide__slide"><img src="https://drive.google.com/file/d/1XMvOUC0T2fRk0DR4YXWPWSv1yob2dQku/view?usp=drive_link" alt="Image 3"></li>
-            </ul>
+            <ul id="imageList" class="splide__list"></ul>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
     <script>
-        new Splide( '#splide' ).mount();
+        const folderId = '1BkhtZiiAOHU6oUdwWz8FkIBmf5c2zUtC';  // Your Google Drive folder ID
+        const apiKey = 'AIzaSyDEAwuiivGrx8x3a1V_Lcm-rubsJV2ohhQ';  // Your API key
+        const imageList = document.getElementById('imageList');
+
+        // Function to fetch images from Google Drive folder
+        function fetchImagesFromDrive() {
+            const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,mimeType)`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    data.files.forEach(file => {
+                        if (file.mimeType.startsWith('image/')) {
+                            const imgSrc = `https://drive.google.com/uc?export=view&id=${file.id}`;
+                            const li = document.createElement('li');
+                            li.classList.add('splide__slide');
+                            li.innerHTML = `<img src="${imgSrc}" alt="${file.name}">`;
+                            imageList.appendChild(li);
+                        }
+                    });
+
+                    // Initialize SplideJS after images have been loaded
+                    new Splide('#splide').mount();
+                })
+                .catch(error => console.error('Error fetching images:', error));
+        }
+
+        // Call the function to fetch and display images
+        fetchImagesFromDrive();
     </script>
+
 </body>
 </html>
