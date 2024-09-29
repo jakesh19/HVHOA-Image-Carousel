@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splide Carousel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+    <style>
+        .splide__slide img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="splide" class="splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                <li class="splide__slide"><img src="https://drive.google.com/file/d/1XATu5MvLN7FRzepyhvQIpCUDwgh5oCRb/view?usp=drive_link" alt="Image 1"></li>
+                <li class="splide__slide"><img src="https://drive.google.com/file/d/1S-DnIlwQpicNFxceneWVeoK4fWPjAUs7/view?usp=drive_link" alt="Image 2"></li>
+                <li class="splide__slide"><img src="https://drive.google.com/file/d/1XMvOUC0T2fRk0DR4YXWPWSv1yob2dQku/view?usp=drive_link" alt="Image 3"></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+    <script>
+        new Splide( '#splide' ).mount();
+    </script>
+</body>
+</html>
